@@ -1,41 +1,37 @@
-<html lang="en">
+<!DOCTYPE html>
+<html>
 <head>
+    <title>Sample HTML Document</title>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WCAG Issues Demo</title>
-    <style>
-        body {
-            background-color: white;
-            color: #ccc; /* Low contrast text */
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Missing closing tag for meta description -->
+    <meta name="description" content="A sample HTML document to test HTMLHint>
 </head>
 <body>
     <header>
-        <h1>Welcome to the WCAG Issues Demo</h1>
+        <h1>Welcome to HTMLHint Testing</h1>
+        <!-- Duplicate ID error -->
+        <p id="intro">This is a sample document to test HTMLHint.</p>
+        <p id="intro">Make sure to catch all the issues!</p>
     </header>
-    
+
     <main>
-        <h2>Images</h2>
-        <img src="image.jpg"> <!-- Missing alt text -->
-        
-        <h3>Content Section</h3>
-        <p>This is a paragraph demonstrating improper heading structure.</p>
-        
-        <h2>More Content</h2>
-        <p>Another paragraph without proper landmarks.</p>
-        
-        <div role="navigation"> <!-- Missing landmarks -->
-            <a href="#section1">Section 1</a>
-            <a href="#section2">Section 2</a>
-        </div>
-        
-        <h4>Links</h4>
-        <a href="#" aria-label="Link to nowhere">Click here</a> <!-- Missing ARIA attributes -->
+        <!-- Missing alt attribute for accessibility -->
+        <img src="image.jpg">
+
+        <!-- Inline style usage issue -->
+        <p style="color: red;">This text is styled inline.</p>
+
+        <!-- Deprecated <center> tag -->
+        <center><p>Centered text using deprecated tag</p></center>
+
+        <!-- Unescaped characters -->
+        <p>Check out this code snippet: if (x < y) { return x; }</p>
     </main>
-    
+
     <footer>
-        <p>Footer content</p>
+        <!-- Missing closing tag for footer -->
+        <p>Thank you for testing HTMLHint!
     </footer>
 </body>
 </html>
