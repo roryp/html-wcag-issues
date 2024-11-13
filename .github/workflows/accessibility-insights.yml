@@ -3,30 +3,6 @@ name: Accessibility Test
 on: [push, pull_request]
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v3
-    - uses: azure/login@v1
-      with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-
-    - name: Upload to blob storage
-      uses: azure/CLI@v1
-      with:
-        inlineScript: |
-            az storage blob upload --account-name accessibilitydemo --auth-mode key -c '$web' -f index.html -n index.html --overwrite
-    - name: Purge CDN endpoint
-      uses: azure/CLI@v1
-      with:
-        inlineScript: |
-           az cdn endpoint purge --content-paths  "/*" --profile-name "CDN_PROFILE_NAME" --name "CDN_ENDPOINT" --resource-group "RESOURCE_GROUP"
-
-  # Azure logout
-    - name: logout
-      run: |
-            az logout
-      if: always()
   accessibility-test:
     runs-on: ubuntu-latest
 
