@@ -9,6 +9,7 @@ jobs:
     permissions:
       contents: read
       issues: write
+      checks: write  # Added 'checks: write' permission
 
     steps:
     - name: Checkout repository
@@ -19,22 +20,23 @@ jobs:
       with:
         scan-url-relative-path: './index.html'
         output-dir: './a11y-reports'
-        report-format: 'json'  # Generate JSON report for easier parsing
         repo-token: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Create GitHub Issue for Accessibility Issues
       run: |
-        report_file=$(find ./a11y-reports -name '*.json' | head -n 1)
+        report_file=$(find ./a11y-reports -name '*.html' | head -n 1)
         if [ -z "$report_file" ]; then
           echo "No report file found."
           exit 0
         fi
 
-        violations=$(jq -r '.axeResults.violations[] | "- **\(.id)**: \(.description)"' "$report_file")
+        # Extract violations from the HTML report using grep
+        violations=$(grep -oP '(?<=<li class="issue-description">).*?(?=</li>)' "$report_file")
 
         if [ -n "$violations" ]; then
           issue_title="Accessibility Issues Found"
           issue_body="The following accessibility issues were found:\n\n$violations"
+          # Create a GitHub issue using the API
           curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
                -H "Accept: application/vnd.github.v3+json" \
                --data "$(jq -n --arg title "$issue_title" --arg body "$issue_body" '{title: $title, body: $body}')" \
