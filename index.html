@@ -1,0 +1,41 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WCAG Issues Demo</title>
+    <style>
+        body {
+            background-color: white;
+            color: #ccc; /* Low contrast text */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Welcome to the WCAG Issues Demo</h1>
+    </header>
+    
+    <main>
+        <h2>Images</h2>
+        <img src="image.jpg"> <!-- Missing alt text -->
+        
+        <h3>Content Section</h3>
+        <p>This is a paragraph demonstrating improper heading structure.</p>
+        
+        <h2>More Content</h2>
+        <p>Another paragraph without proper landmarks.</p>
+        
+        <div role="navigation"> <!-- Missing landmarks -->
+            <a href="#section1">Section 1</a>
+            <a href="#section2">Section 2</a>
+        </div>
+        
+        <h4>Links</h4>
+        <a href="#" aria-label="Link to nowhere">Click here</a> <!-- Missing ARIA attributes -->
+    </main>
+    
+    <footer>
+        <p>Footer content</p>
+    </footer>
+</body>
+</html>
