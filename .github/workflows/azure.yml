@@ -1,0 +1,21 @@
+name: Deploy to Azure Storage
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+      
+    - name: Upload to Azure Storage
+      uses: azure/storage-blob-upload-action@v1
+      with:
+        source_dir: './index.html'
+        container_name: '\$web'
+      env:
+        AZURE_STORAGE_ACCOUNT_NAME: 'accessibilitydemo'
+        AZURE_STORAGE_ACCOUNT_KEY: ${{ secrets.AZURE_STORAGE_ACCOUNT_KEY }}
