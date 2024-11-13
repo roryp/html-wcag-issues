@@ -30,11 +30,10 @@ jobs:
         script: |
           const fs = require('fs');
           const report = JSON.parse(fs.readFileSync('pa11y-report.json', 'utf8'));
-          const { issues } = report;
 
-          if (issues.length > 0) {
-            issues.forEach(issue => {
-              github.issues.create({
+          if (report && report.length > 0) {
+            report.forEach(issue => {
+              github.rest.issues.create({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 title: `Accessibility issue: ${issue.message}`,
