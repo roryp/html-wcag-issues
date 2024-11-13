@@ -22,11 +22,15 @@ jobs:
         output-dir: './a11y-reports'
         repo-token: ${{ secrets.GITHUB_TOKEN }}
 
+    - name: Install jq
+      run: sudo apt-get install -y jq
+
     - name: Create GitHub Issues for Accessibility Issues
       id: create-issues
       run: |
-        if [ -f ./a11y-reports/report.json ]; then
-          issues=$(jq -r '.results | map(select(.status == "fail")) | .[] | .description' ./a11y-reports/report.json)
+        report_file=$(ls ./a11y-reports/*.html | head -n 1)
+        if [ -f "$report_file" ]; then
+          issues=$(jq -r '.results | map(select(.status == "fail")) | .[] | .description' "$report_file")
           for issue in $issues; do
             gh issue create --title "Accessibility Issue: $issue" --body "An accessibility issue was found: $issue"
           done
