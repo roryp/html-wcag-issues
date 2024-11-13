@@ -27,14 +27,14 @@ jobs:
       - name: Run HTMLHint on index.html
         id: htmlhint
         run: |
-          htmlhint index.html || echo "HTMLHint failed" > htmlhint_failed.txt
+          htmlhint index.html || (echo "HTMLHint failed" > htmlhint_failed.txt && exit 1)
 
       - name: Install GitHub CLI
-        if: failure() || (steps.htmlhint.outcome == 'failure')
+        if: ${{ steps.htmlhint.outcome == 'failure' }}
         run: sudo apt-get install -y gh
 
       - name: Create Issue on Failure
-        if: ${{ failure() || (steps.htmlhint.outcome == 'failure') && exists('htmlhint_failed.txt') }}
+        if: ${{ steps.htmlhint.outcome == 'failure' }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
