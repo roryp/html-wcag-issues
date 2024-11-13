@@ -20,27 +20,57 @@ jobs:
       with:
         scan-url-relative-path: './index.html'
         output-dir: './a11y-reports'
+        report-format: 'json'  # Generate JSON report for easier parsing
         repo-token: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Debug Report File
       run: |
         ls -l ./a11y-reports/
-        cat ./a11y-reports/*.html
+        cat ./a11y-reports/*.json
 
     - name: Create GitHub Issues for Accessibility Issues
-      id: create-issues
-      run: |
-        report_file=$(ls ./a11y-reports/*.html | head -n 1)
-        echo "Report file: $report_file"
-        if [ -f "$report_file" ]; then
-          issues=$(grep -oP '(?<=<li class="issue-description">).*?(?=</li>)' "$report_file")
-          echo "Issues found: $issues"
-          for issue in $issues; do
-            echo "Creating issue: $issue"
-            gh issue create --title "Accessibility Issue" --body "An accessibility issue was found: $issue"
-          done
-        else
-          echo "No report file found."
-        fi
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      uses: actions/github-script@v6
+      with:
+        script: |
+          const fs = require('fs');
+          const path = require('path');
+
+          const reportDir = './a11y-reports';
+          const reportFiles = fs.readdirSync(reportDir).filter(file => file.endsWith('.json'));
+
+          if (reportFiles.length === 0) {
+            console.log('No report files found.');
+            return;
+          }
+
+          const reportFile = path.join(reportDir, reportFiles[0]);
+          console.log(`Report file: ${reportFile}`);
+
+          const reportData = JSON.parse(fs.readFileSync(reportFile, 'utf8'));
+
+          const violations = reportData.axeResults.violations;
+          console.log(`Issues found: ${violations.length}`);
+
+          for (const violation of violations) {
+            const issueTitle = `Accessibility Issue: ${violation.id}`;
+            const issueBody = `An accessibility issue was found:
+
+**Rule Id**: ${violation.id}
+**Impact**: ${violation.impact}
+**Description**: ${violation.description}
+**Help**: ${violation.help}
+
+**Help URL**: ${violation.helpUrl}
+
+**Affected Elements**:
+${violation.nodes.map(node => `- **Target**: ${node.target.join(', ')}\n  **HTML Snippet**:\n  \`\`\`\n  ${node.html}\n  \`\`\``).join('\n')}
+
+`;
+
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: issueTitle,
+              body: issueBody,
+            });
+          }
