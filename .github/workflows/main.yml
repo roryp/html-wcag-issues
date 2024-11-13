@@ -1,4 +1,4 @@
-name: Test HTML
+name: Test HTML and Create Issue on Failure
 
 on:
   push:
@@ -25,4 +25,17 @@ jobs:
         run: npm install -g htmlhint
 
       - name: Run HTMLHint on index.html
-        run: htmlhint index.html
+        id: htmlhint
+        run: |
+          htmlhint index.html || echo "HTMLHint failed" > htmlhint_failed.txt
+
+      - name: Install GitHub CLI
+        if: failure()
+        uses: actions/setup-node@v3
+        run: sudo apt-get install -y gh
+
+      - name: Create Issue on Failure
+        if: failure() && steps.htmlhint.outcome == 'failure'
+        run: |
+          ISSUE_BODY="HTML issues detected in index.html:\n\n$(htmlhint index.html)"
+          gh issue create --title "HTML Issues in index.html" --body "$ISSUE_BODY" --label "bug"
