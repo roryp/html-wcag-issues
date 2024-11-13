@@ -19,6 +19,5 @@ jobs:
 
     - name: Upload to Azure Storage
       run: |
-        az storage blob upload-batch --account-name accessibilitydemo --destination '$web' --source path/to/index.html
-      env:
-        AZURE_STORAGE_ACCOUNT: 'accessibilitydemo'
+        az storage blob upload-batch --account-name accessibilitydemo --destination '$web' --source .
+      working-directory: path/to/
