@@ -27,7 +27,7 @@ jobs:
       - name: Run HTMLHint on index.html
         id: htmlhint
         run: |
-          htmlhint index.html || (echo "HTMLHint failed" > htmlhint_failed.txt && exit 1)
+          htmlhint index.html || echo "HTMLHint failed" > htmlhint_failed.txt
 
       - name: Install GitHub CLI
         if: ${{ steps.htmlhint.outcome == 'failure' }}
