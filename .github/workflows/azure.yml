@@ -20,4 +20,4 @@ jobs:
     - name: Upload to Azure Storage
       run: |
         az storage blob upload-batch --account-name accessibilitydemo --destination '$web' --source .
-      working-directory: path/to/
+      working-directory: 'test/html-wcag-issues'
