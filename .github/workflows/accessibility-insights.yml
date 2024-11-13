@@ -18,8 +18,9 @@ jobs:
       - name: Run Accessibility Insights Action
         uses: microsoft/accessibility-insights-action@v1
         with:
-          url: 'file://./index.html'
+          scan-url-relative-path: './index.html'
           output-dir: './a11y-reports'
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create GitHub Issues for Accessibility Issues
         id: create-issues
