@@ -8,7 +8,6 @@ jobs:
 
     permissions:
       contents: read
-      checks: write
       issues: write
 
     steps:
@@ -23,54 +22,25 @@ jobs:
         report-format: 'json'  # Generate JSON report for easier parsing
         repo-token: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: Debug Report File
+    - name: Create GitHub Issue for Accessibility Issues
       run: |
-        ls -l ./a11y-reports/
-        cat ./a11y-reports/*.json
+        report_file=$(find ./a11y-reports -name '*.json' | head -n 1)
+        if [ -z "$report_file" ]; then
+          echo "No report file found."
+          exit 0
+        fi
 
-    - name: Create GitHub Issues for Accessibility Issues
-      uses: actions/github-script@v6
-      with:
-        script: |
-          const fs = require('fs');
-          const path = require('path');
+        violations=$(jq -r '.axeResults.violations[] | "- **\(.id)**: \(.description)"' "$report_file")
 
-          const reportDir = './a11y-reports';
-          const reportFiles = fs.readdirSync(reportDir).filter(file => file.endsWith('.json'));
-
-          if (reportFiles.length === 0) {
-            console.log('No report files found.');
-            return;
-          }
-
-          const reportFile = path.join(reportDir, reportFiles[0]);
-          console.log(`Report file: ${reportFile}`);
-
-          const reportData = JSON.parse(fs.readFileSync(reportFile, 'utf8'));
-
-          const violations = reportData.axeResults.violations;
-          console.log(`Issues found: ${violations.length}`);
-
-          for (const violation of violations) {
-            const issueTitle = `Accessibility Issue: ${violation.id}`;
-            const issueBody = `An accessibility issue was found:
-
-**Rule Id**: ${violation.id}
-**Impact**: ${violation.impact}
-**Description**: ${violation.description}
-**Help**: ${violation.help}
-
-**Help URL**: ${violation.helpUrl}
-
-**Affected Elements**:
-${violation.nodes.map(node => `- **Target**: ${node.target.join(', ')}\n  **HTML Snippet**:\n  \`\`\`\n  ${node.html}\n  \`\`\``).join('\n')}
-
-`;
-
-            await github.rest.issues.create({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              title: issueTitle,
-              body: issueBody,
-            });
-          }
+        if [ -n "$violations" ]; then
+          issue_title="Accessibility Issues Found"
+          issue_body="The following accessibility issues were found:\n\n$violations"
+          curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+               -H "Accept: application/vnd.github.v3+json" \
+               --data "$(jq -n --arg title "$issue_title" --arg body "$issue_body" '{title: $title, body: $body}')" \
+               https://api.github.com/repos/${{ github.repository }}/issues
+        else
+          echo "No accessibility issues found."
+        fi
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
