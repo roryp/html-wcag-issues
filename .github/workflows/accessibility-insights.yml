@@ -22,15 +22,25 @@ jobs:
         output-dir: './a11y-reports'
         repo-token: ${{ secrets.GITHUB_TOKEN }}
 
+    - name: Debug Report File
+      run: |
+        ls -l ./a11y-reports/
+        cat ./a11y-reports/*.html
+
     - name: Create GitHub Issues for Accessibility Issues
       id: create-issues
       run: |
         report_file=$(ls ./a11y-reports/*.html | head -n 1)
+        echo "Report file: $report_file"
         if [ -f "$report_file" ]; then
           issues=$(grep -oP '(?<=<li class="issue-description">).*?(?=</li>)' "$report_file")
+          echo "Issues found: $issues"
           for issue in $issues; do
+            echo "Creating issue: $issue"
             gh issue create --title "Accessibility Issue" --body "An accessibility issue was found: $issue"
           done
+        else
+          echo "No report file found."
         fi
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
