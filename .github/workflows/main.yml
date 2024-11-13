@@ -31,11 +31,12 @@ jobs:
 
       - name: Install GitHub CLI
         if: failure()
-        uses: actions/setup-node@v3
         run: sudo apt-get install -y gh
 
       - name: Create Issue on Failure
         if: failure() && steps.htmlhint.outcome == 'failure'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           ISSUE_BODY="HTML issues detected in index.html:\n\n$(htmlhint index.html)"
           gh issue create --title "HTML Issues in index.html" --body "$ISSUE_BODY" --label "bug"
