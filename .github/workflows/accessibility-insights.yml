@@ -15,21 +15,16 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Run Accessibility Insights Action
-      uses: microsoft/accessibility-insights-action@v1
+    - name: Run Axe Accessibility Linter
+      uses: dequelabs/axe-core-github-action@v3
       with:
-        scan-url-relative-path: './index.html'
-        output-dir: './a11y-reports'
         repo-token: ${{ secrets.GITHUB_TOKEN }}
+        # Specify the directory or files to scan
+        directory: './public'
+        fail-build: false  # Set to true if you want the build to fail on accessibility issues
 
-    - name: Create GitHub Issues for Accessibility Issues
-      id: create-issues
-      run: |
-        if [ -f ./a11y-reports/report.json ]; then
-          issues=$(jq -r '.results | map(select(.status == "fail")) | .[] | .description' ./a11y-reports/report.json)
-          for issue in $issues; do
-            gh issue create --title "Accessibility Issue: $issue" --body "An accessibility issue was found: $issue"
-          done
-        fi
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Create GitHub Issues for Accessibility Violations
+      uses: yujinyuz/axe-report-to-issue@v1
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        axe-report-json-path: './axe-results.json'  # Path to the Axe results JSON file
