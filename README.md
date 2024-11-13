@@ -15,3 +15,14 @@ This project contains a simple HTML file (`index.html`) that intentionally demon
 5. **Missing ARIA Attributes**: The file does not include necessary ARIA (Accessible Rich Internet Applications) attributes that could enhance accessibility for users with disabilities.
 
 This project serves as a resource for developers to understand and identify common accessibility pitfalls in their web applications.
+
+## GitHub Action for Logging Accessibility Issues
+
+We have implemented a GitHub Action that runs accessibility tests using `microsoft/accessibility-insights-action@v2` and logs any identified accessibility issues as GitHub issues. This automated process helps in tracking and addressing accessibility problems efficiently.
+
+The action performs the following steps:
+1. Runs the accessibility test on `index.html`.
+2. Generates a report and saves it in the `./a11y-reports` directory.
+3. Parses the report and creates GitHub issues for each identified accessibility problem.
+
+By using this action, we ensure that accessibility issues are promptly logged and can be addressed in a timely manner.
