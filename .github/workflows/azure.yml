@@ -13,18 +13,40 @@ jobs:
       with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
+    - name: Install Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+
+    - name: Install pa11y
+      run: npm install -g pa11y
+
+    - name: Run accessibility tests
+      run: pa11y http://localhost:8080
+      continue-on-error: true
+      id: pa11y
+
+    - name: Check accessibility test results
+      run: |
+        if grep -q "Error" pa11y-results.json; then
+          echo "Accessibility issues found, failing the build."
+          exit 1
+        fi
+
     - name: Upload to blob storage
       uses: azure/CLI@v1
       with:
         inlineScript: |
             az storage blob upload --account-name accessibilitydemo --auth-mode key -c '$web' -f index.html -n index.html --overwrite
+      if: steps.pa11y.outcome == 'success'
+
     - name: Purge CDN endpoint
       uses: azure/CLI@v1
       with:
         inlineScript: |
            az cdn endpoint purge --content-paths  "/*" --profile-name "CDN_PROFILE_NAME" --name "CDN_ENDPOINT" --resource-group "RESOURCE_GROUP"
+      if: steps.pa11y.outcome == 'success'
 
-  # Azure logout
     - name: logout
       run: |
             az logout
