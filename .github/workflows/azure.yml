@@ -17,7 +17,7 @@ jobs:
       uses: azure/CLI@v1
       with:
         inlineScript: |
-            az storage blob upload --account-name accessibilitydemo --auth-mode key -c '$web' -f index.html -n index.html
+            az storage blob upload --account-name accessibilitydemo --auth-mode key -c '$web' -f index.html -n index.html --overwrite
     - name: Purge CDN endpoint
       uses: azure/CLI@v1
       with:
