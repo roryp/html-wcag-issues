@@ -26,12 +26,6 @@ jobs:
           scan-url-relative-path: './index.html'
           output-dir: './a11y-reports'
           repo-token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Create GitHub Issues from Accessibility Report
-        run: node scripts/create-issues.js
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
   build:
     needs: accessibility-test
     runs-on: ubuntu-latest
