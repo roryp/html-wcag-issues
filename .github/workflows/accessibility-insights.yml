@@ -3,13 +3,37 @@ name: Accessibility Test
 on: [push, pull_request]
 
 jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: azure/login@v1
+      with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: Upload to blob storage
+      uses: azure/CLI@v1
+      with:
+        inlineScript: |
+            az storage blob upload --account-name accessibilitydemo --auth-mode key -c '$web' -f index.html -n index.html --overwrite
+    - name: Purge CDN endpoint
+      uses: azure/CLI@v1
+      with:
+        inlineScript: |
+           az cdn endpoint purge --content-paths  "/*" --profile-name "CDN_PROFILE_NAME" --name "CDN_ENDPOINT" --resource-group "RESOURCE_GROUP"
+
+  # Azure logout
+    - name: logout
+      run: |
+            az logout
+      if: always()
   accessibility-test:
     runs-on: ubuntu-latest
 
     permissions:
       contents: read
+      checks: write
       issues: write
-      checks: write  # Added 'checks: write' permission
 
     steps:
     - name: Checkout repository
@@ -22,27 +46,14 @@ jobs:
         output-dir: './a11y-reports'
         repo-token: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: Create GitHub Issue for Accessibility Issues
+    - name: Create GitHub Issues for Accessibility Issues
+      id: create-issues
       run: |
-        report_file=$(find ./a11y-reports -name '*.html' | head -n 1)
-        if [ -z "$report_file" ]; then
-          echo "No report file found."
-          exit 0
-        fi
-
-        # Extract violations from the HTML report using grep
-        violations=$(grep -oP '(?<=<li class="issue-description">).*?(?=</li>)' "$report_file")
-
-        if [ -n "$violations" ]; then
-          issue_title="Accessibility Issues Found"
-          issue_body="The following accessibility issues were found:\n\n$violations"
-          # Create a GitHub issue using the API
-          curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-               -H "Accept: application/vnd.github.v3+json" \
-               --data "$(jq -n --arg title "$issue_title" --arg body "$issue_body" '{title: $title, body: $body}')" \
-               https://api.github.com/repos/${{ github.repository }}/issues
-        else
-          echo "No accessibility issues found."
+        if [ -f ./a11y-reports/report.json ]; then
+          issues=$(jq -r '.results | map(select(.status == "fail")) | .[] | .description' ./a11y-reports/report.json)
+          for issue in $issues; do
+            gh issue create --title "Accessibility Issue: $issue" --body "An accessibility issue was found: $issue"
+          done
         fi
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
