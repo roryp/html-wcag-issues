@@ -20,4 +20,26 @@ jobs:
       run: npm install -g pa11y
 
     - name: Run Pa11y on index.html
-      run: pa11y file://$GITHUB_WORKSPACE/index.html
+      id: pa11y
+      run: pa11y file://$GITHUB_WORKSPACE/index.html --reporter json > pa11y-report.json
+
+    - name: Create GitHub Issues for Accessibility Problems
+      if: always()
+      uses: actions/github-script@v6
+      with:
+        script: |
+          const fs = require('fs');
+          const report = JSON.parse(fs.readFileSync('pa11y-report.json', 'utf8'));
+          const { issues } = report;
+
+          if (issues.length > 0) {
+            issues.forEach(issue => {
+              github.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: `Accessibility issue: ${issue.message}`,
+                body: `**Issue:** ${issue.message}\n**Code:** ${issue.code}\n**Selector:** ${issue.selector}\n**Context:** ${issue.context}\n**Type:** ${issue.type}\n**Type Code:** ${issue.typeCode}\n**Help:** ${issue.help}\n**Help URL:** ${issue.helpUrl}`,
+                labels: ['accessibility']
+              });
+            });
+          }
