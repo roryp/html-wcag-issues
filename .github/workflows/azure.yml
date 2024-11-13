@@ -1,23 +1,31 @@
-name: Deploy to Azure Storage
+name: Blob storage website CI
+
 on:
-  push:
-    branches:
-      - main
+    push:
+        branches: [ main ]
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
-    
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-      
-    - name: Login to Azure
-      uses: azure/login@v1
+    - uses: actions/checkout@v3
+    - uses: azure/login@v1
       with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-    - name: Upload to Azure Storage
+    - name: Upload to blob storage
+      uses: azure/CLI@v1
+      with:
+        inlineScript: |
+            az storage blob upload-batch --account-name <STORAGE_ACCOUNT_NAME> --auth-mode key -d '$web' -s .
+    - name: Purge CDN endpoint
+      uses: azure/CLI@v1
+      with:
+        inlineScript: |
+           az cdn endpoint purge --content-paths  "/*" --profile-name "CDN_PROFILE_NAME" --name "CDN_ENDPOINT" --resource-group "RESOURCE_GROUP"
+
+  # Azure logout
+    - name: logout
       run: |
-        az storage blob upload-batch --account-name accessibilitydemo --destination '$web' --source .
-      working-directory: 'test/html-wcag-issues'
+            az logout
+      if: always()
