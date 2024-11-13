@@ -1,37 +1,44 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Sample HTML Document</title>
+    <title>WCAG Issues Example</title>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="styles.css">
-    <!-- Missing closing tag for meta description -->
-    <meta name="description" content="A sample HTML document to test HTMLHint>
+    <meta name="description" content="A sample HTML document to test HTMLHint">
+    <style>
+        /* Low contrast text */
+        .low-contrast {
+            color: #cccccc;
+            background-color: #ffffff;
+        }
+    </style>
 </head>
 <body>
     <header>
-        <h1>Welcome to HTMLHint Testing</h1>
-        <!-- Duplicate ID error -->
+        <h1>Welcome to the WCAG Issues Example</h1>
+        <h3>This is a subheading</h3>
+        <h2>This should be a subheading of the previous heading</h2>
         <p id="intro">This is a sample document to test HTMLHint.</p>
         <p id="intro">Make sure to catch all the issues!</p>
     </header>
 
     <main>
-        <!-- Missing alt attribute for accessibility -->
-        <img src="image.jpg">
-
-        <!-- Inline style usage issue -->
+        <img src="image1.jpg">
+        <img src="image2.jpg">
+        <img src="image.jpg" alt="">
+        <p class="low-contrast">This text has low contrast and is hard to read.</p>
         <p style="color: red;">This text is styled inline.</p>
-
-        <!-- Deprecated <center> tag -->
         <center><p>Centered text using deprecated tag</p></center>
-
-        <!-- Unescaped characters -->
         <p>Check out this code snippet: if (x < y) { return x; }</p>
+        <button>Click me</button>
+        <h4>Another heading</h4>
+        <h3>This should be a subheading of the previous heading</h3>
+        <img src="image3.jpg">
+        <img src="image4.jpg">
     </main>
 
     <footer>
-        <!-- Missing closing tag for footer -->
-        <p>Thank you for testing HTMLHint!
+        <p>Thank you for testing HTMLHint!</p>
     </footer>
 </body>
 </html>
