@@ -26,3 +26,5 @@ The action performs the following steps:
 3. Parses the report and creates GitHub issues for each identified accessibility problem.
 
 By using this action, we ensure that accessibility issues are promptly logged and can be addressed in a timely manner.
+
+Hello world!
