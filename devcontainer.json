@@ -1,0 +1,19 @@
+{
+    "name": "HTML WCAG Issues Dev Container",
+    "image": "mcr.microsoft.com/vscode/devcontainers/javascript-node:0-14",
+    "extensions": [
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "ms-azuretools.vscode-docker",
+        "ms-vscode.vscode-typescript-tslint-plugin",
+        "msjsdiag.debugger-for-chrome",
+        "microsoft.vscode-edge-devtools",
+        "microsoft.accessibility-insights"
+    ],
+    "settings": {
+        "terminal.integrated.shell.linux": "/bin/bash",
+        "editor.formatOnSave": true,
+        "eslint.alwaysShowStatus": true
+    },
+    "postCreateCommand": "npm install"
+}
