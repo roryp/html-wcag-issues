@@ -1,12 +1,7 @@
 {
   "name": "html-wcag-issues",
   "version": "1.0.0",
-  "description": "A script to create GitHub issues from accessibility reports",
-  "main": "create-issues.js",
-  "scripts": {
-    "start": "node scripts/create-issues.js"
-  },
+  "description": "A project to create GitHub issues from accessibility reports",
   "dependencies": {
-    "@octokit/rest": "^18.0.0"
   }
 }

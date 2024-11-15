@@ -1,0 +1,30 @@
+{
+	"name": "HTML WCAG Issues",
+	"image": "mcr.microsoft.com/vscode/devcontainers/javascript-node:0-14",
+	"features": {
+	  "ghcr.io/devcontainers/features/node:1": {
+		"version": "14"
+	  }
+	},
+	"customizations": {
+	  "vscode": {
+		"extensions": [
+			"dbaeumer.vscode-eslint",
+			"esbenp.prettier-vscode",
+			"ms-azuretools.vscode-docker",
+			"msjsdiag.debugger-for-chrome",
+			"microsoft.vscode-edge-devtools",
+			"microsoft.accessibility-insights",
+			"ms-vscode.vscode-websearchforcopilot",
+			"ms-vscode.vscode-copilot-data-analysis",
+			"ms-azuretools.vscode-azure-github-copilot"
+		]
+	  }
+	},
+	"postCreateCommand": "npm install",
+	"settings": {
+	  "terminal.integrated.shell.linux": "/bin/bash"
+	},
+	"forwardPorts": [3000],
+	"remoteUser": "node"
+  }

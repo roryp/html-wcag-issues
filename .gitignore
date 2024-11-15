@@ -1,0 +1,14 @@
+# Ignore node_modules directory
+node_modules/
+
+# Ignore .env files
+.env
+
+# Ignore dist directory
+dist/
+
+# Ignore .vscode directory
+.vscode/
+
+# Ignore a11y-reports directory
+a11y-reports/
