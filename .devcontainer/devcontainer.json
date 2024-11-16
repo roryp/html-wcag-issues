@@ -17,11 +17,10 @@
 			"microsoft.accessibility-insights",
 			"ms-vscode.vscode-websearchforcopilot",
 			"ms-vscode.vscode-copilot-data-analysis",
-			"ms-azuretools.vscode-azure-github-copilot"
-		],
-		"settings": {
-		  "terminal.integrated.shell.linux": "/bin/bash"
-		}
+			"ms-azuretools.vscode-azure-github-copilot",
+			"github.vscode-github-actions",
+			"ms-vscode.vscode-node-azure-pack"
+		]
 	  }
 	},
 	"postCreateCommand": "npm install",
