@@ -18,13 +18,13 @@
 			"ms-vscode.vscode-websearchforcopilot",
 			"ms-vscode.vscode-copilot-data-analysis",
 			"ms-azuretools.vscode-azure-github-copilot"
-		]
+		],
+		"settings": {
+		  "terminal.integrated.shell.linux": "/bin/bash"
+		}
 	  }
 	},
 	"postCreateCommand": "npm install",
-	"settings": {
-	  "terminal.integrated.shell.linux": "/bin/bash"
-	},
 	"forwardPorts": [3000],
 	"remoteUser": "node"
   }
