@@ -24,9 +24,6 @@
 	  }
 	},
 	"postCreateCommand": "npm install",
-	"settings": {
-	  "terminal.integrated.shell.linux": "/bin/bash"
-	},
 	"forwardPorts": [3000],
 	"remoteUser": "node"
   }
