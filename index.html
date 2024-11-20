@@ -8,7 +8,7 @@
     <style>
         /* Low contrast text */
         .low-contrast {
-            color: #cccccc;
+            color: #000000;
             background-color: #ffffff;
         }
     </style>
@@ -16,25 +16,25 @@
 <body>
     <header>
         <h1>Welcome to the WCAG Issues Example November 20th</h1>
-        <h3>This is a subheading</h3>
-        <h2>This should be a subheading of the previous heading</h2>
+        <h2>This is a subheading</h2>
+        <h3>This should be a subheading of the previous heading</h3>
         <p id="intro">This is a sample document to test accessibility.</p>
-        <p id="intro">Make sure to catch all the issues!</p>
+        <p>Make sure to catch all the issues!</p>
     </header>
 
     <main>
-        <img src="image1.jpg">
-        <img src="image2.jpg">
-        <img src="image.jpg" alt="">
+        <img src="image1.jpg" alt="Description of image 1">
+        <img src="image2.jpg" alt="Description of image 2">
+        <img src="image.jpg" alt="Description of image">
         <p class="low-contrast">This text has low contrast and is hard to read.</p>
-        <p style="color: red;">This text is styled inline.</p>
-        <center><p>Centered text using deprecated tag</p></center>
+        <p class="red-text">This text is styled inline.</p>
+        <div class="center-text"><p>Centered text using deprecated tag</p></div>
         <p>Check out this code snippet: if (x < y) { return x; }</p>
-        <button>Click me</button>
-        <h4>Another heading</h4>
-        <h3>This should be a subheading of the previous heading</h3>
-        <img src="image3.jpg">
-        <img src="image4.jpg">
+        <button aria-label="Click me button">Click me</button>
+        <h3>Another heading</h3>
+        <h4>This should be a subheading of the previous heading</h4>
+        <img src="image3.jpg" alt="Description of image 3">
+        <img src="image4.jpg" alt="Description of image 4">
     </main>
 
     <footer>

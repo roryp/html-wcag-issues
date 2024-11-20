@@ -1,0 +1,9 @@
+/* CSS for centering text */
+.center-text {
+    text-align: center;
+}
+
+/* Moved inline styles from index.html */
+.red-text {
+    color: red;
+}
