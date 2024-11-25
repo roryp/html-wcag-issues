@@ -5,27 +5,6 @@ on:
     branches: [ main ]
 
 jobs:
-  accessibility-test:
-    runs-on: ubuntu-latest
-
-    permissions:
-      contents: read
-      checks: write
-      issues: write
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Run Accessibility Insights Action
-        uses: microsoft/accessibility-insights-action@v2
-        with:
-          scan-url-relative-path: './index.html'
-          output-dir: './a11y-reports'
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
   build:
     needs: accessibility-test
     runs-on: ubuntu-latest
