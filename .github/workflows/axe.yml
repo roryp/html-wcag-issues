@@ -22,3 +22,11 @@ jobs:
         with:
           api_key: ${{ secrets.AXE_KEY }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
+
+      # Step 3: Convert Report to Markdown and Append to Job Summary
+      - name: Display Axe Report in Summary
+        run: |
+          echo "### Axe Linter Results" >> $GITHUB_STEP_SUMMARY
+          echo '```json' >> $GITHUB_STEP_SUMMARY
+          cat axe-results.json >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
