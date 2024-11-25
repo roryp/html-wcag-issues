@@ -13,20 +13,8 @@ jobs:
 
     steps:
       # Step 1: Check out the code
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      # Step 2: Run Axe Linter GitHub Action
-      - name: Run Axe Linter
-        uses: dequelabs/axe-linter-action@v1
+      - uses: actions/checkout@v4
+      - uses: dequelabs/axe-linter-action@v1
         with:
           api_key: ${{ secrets.AXE_KEY }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
-
-      # Step 3: Convert Report to Markdown and Append to Job Summary
-      - name: Display Axe Report in Summary
-        run: |
-          echo "### Axe Linter Results" >> $GITHUB_STEP_SUMMARY
-          echo '```json' >> $GITHUB_STEP_SUMMARY
-          cat axe-results.json >> $GITHUB_STEP_SUMMARY
-          echo '```' >> $GITHUB_STEP_SUMMARY
