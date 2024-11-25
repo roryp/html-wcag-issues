@@ -14,20 +14,11 @@ jobs:
     steps:
       # Step 1: Check out the code
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       # Step 2: Run Axe Linter GitHub Action
       - name: Run Axe Linter
-        uses: deque-ux/axe-linter-action@v1
+        uses: dequelabs/axe-linter-action@v1
         with:
-          # Directory containing the file to scan
-          directory: './'
-          # File(s) to scan (index.html in root)
-          files: 'index.html'
-
-      # Step 3: Upload results (optional)
-      - name: Upload Axe Report
-        uses: actions/upload-artifact@v3
-        with:
-          name: axe-linter-results
-          path: axe-results.json
+          api_key: ${{ secrets.AXE_LINTER_API_KEY }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
