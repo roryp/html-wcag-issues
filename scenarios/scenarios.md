@@ -1,6 +1,6 @@
 @workspace /new Create an HTML project with a single html file with WCAG issues. The file should have low contrast text, missing alt text for images, missing landmarks, improper use of headings, and missing ARIA attributes. The file should be intentionally created to demonstrate common WCAG issues that can be present in an HTML file.
 @github what is the url for this repo?
-@vscode how can i lint for accessibility issues in index.html
+@vscode how can change to dark mode?
 @azure static website url for accessibilitydemo storage
 @websearch what is the latest WCAG standard?
 
