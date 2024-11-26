@@ -20,7 +20,7 @@
 			"ms-azuretools.vscode-azure-github-copilot",
 			"github.vscode-github-actions",
 			"ms-vscode.vscode-node-azure-pack",
-			"dequelabs.vscode-axe-linter@4.10.0"
+			"deque-systems.vscode-axe-linter@4.10.0"
 		]
 	  }
 	},
