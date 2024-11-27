@@ -19,7 +19,7 @@ jobs:
         uses: azure/CLI@v1
         with:
           inlineScript: |
-            az storage blob upload --account-name accessibilitydemo --auth-mode key -c '$web' -f index.html -n index.html --overwrite
+            az storage blob upload --account-name accessibilityrpza2711 --auth-mode key -c '$web' -f index.html -n index.html --overwrite
 
       # Azure logout
       - name: Logout
