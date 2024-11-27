@@ -11,6 +11,15 @@
             color: #000; /* Changed to high contrast color */
             background-color: #ffffff;
         }
+        .high-contrast {
+            color: #000000;
+        }
+        .center-text {
+            text-align: center;
+        }
+        .red-text {
+            color: red;
+        }
     </style>
 </head>
 <body>
@@ -37,10 +46,10 @@
             <img src="image2.jpg" alt="Description of image 2">
             <img src="image.jpg" alt="Description of image 3">
             <p class="low-contrast">This text has low contrast and is hard to read.</p>
-            <p style="color: red;">This text is styled inline.</p>
-            <p style="text-align: center;">Centered text using deprecated tag</p>
+            <p class="red-text">This text is styled inline.</p>
+            <p class="center-text">Centered text using deprecated tag</p>
             <p>Check out this code snippet: if (x < y) { return x; }</p>
-            <button>Click me</button>
+            <button aria-label="Click me button">Click me</button>
             <h4>Another heading</h4>
             <h3>This should be a subheading of the previous heading</h3>
             <img src="image3.jpg" alt="Description of image 4">
