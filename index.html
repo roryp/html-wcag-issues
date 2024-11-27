@@ -3,13 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Accessibility Issues</title>
+    <title>WCAG Issues Example</title>
     <link rel="stylesheet" href="styles.css">
     <meta name="description" content="A sample HTML document to test accessibility">
     <style>
         .low-contrast {
-            color: #000; /* Changed to high contrast color */
-            background-color: #ffffff;
+            color: #777; /* Low contrast color */
         }
         .high-contrast {
             color: #000000;
@@ -36,7 +35,9 @@
     <main>
         <section id="intro">
             <h2>Introduction</h2>
-            <p>This is a sample document to test accessibility.</p>
+            <p class="low-contrast">This text has low contrast and is hard to read.</p>
+            <img src="image1.jpg"> <!-- Missing alt text -->
+            <img src="image2.jpg"> <!-- Missing alt text -->
             <p>Make sure to catch all the issues!</p>
         </section>
 
@@ -45,13 +46,12 @@
             <img src="image1.jpg" alt="Description of image 1">
             <img src="image2.jpg" alt="Description of image 2">
             <img src="image.jpg" alt="Description of image 3">
-            <p class="low-contrast">This text has low contrast and is hard to read.</p>
             <p class="red-text">This text is styled inline.</p>
             <p class="center-text">Centered text using deprecated tag</p>
             <p>Check out this code snippet: if (x < y) { return x; }</p>
-            <button aria-label="Click me button">Click me</button>
+            <button>Click me</button> <!-- Missing ARIA label -->
             <h4>Another heading</h4>
-            <h3>This should be a subheading of the previous heading</h3>
+            <h3>This should be a subheading of the previous heading</h3> <!-- Improper use of headings -->
             <img src="image3.jpg" alt="Description of image 4">
             <img src="image4.jpg" alt="Description of image 5">
         </section>
