@@ -59,3 +59,12 @@ GitHub Copilot can assist in fixing accessibility issues by suggesting code impr
 ## Using GitHub Workspaces to Fix All Accessibility Issues
 
 GitHub Workspaces can be used to collaboratively fix accessibility issues in your project. By creating a GitHub Workspace, you can invite team members to work on the project together, track issues, and review pull requests. This collaborative approach can help ensure that all accessibility issues are addressed efficiently.
+
+## How to Signup and Use GitHub Workspaces to Solve Issues
+
+To signup and use GitHub Workspaces to solve issues:
+1. Visit the GitHub Workspaces project page: [GitHub Workspaces](https://githubnext.com/projects/copilot-workspace).
+2. Follow the instructions to sign up for GitHub Workspaces.
+3. Once signed up, create a new workspace for your project.
+4. Invite team members to join the workspace.
+5. Use the workspace to collaboratively work on fixing accessibility issues, track progress, and review pull requests.
