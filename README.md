@@ -47,12 +47,11 @@ To install GitHub Copilot, follow these steps:
 To test your web application with Accessibility Insights for Web:
 1. Install the Accessibility Insights for Web extension from the Chrome Web Store or the Microsoft Edge Add-ons store.
 2. Open your web application in the browser.
-3. Click on the Accessibility Insights for Web icon in the browser toolbar.
-4. Follow the instructions to run automated checks and manual tests to identify accessibility issues.
+3. Click on the Accessibility Insights for Web icon in the browser toolbar.Choose **FastPass** to run automated checks or **Assessment** to perform manual tests.
 
 ## GitHub Copilot Fixing Accessibility Issues
 
-GitHub Copilot can assist in fixing accessibility issues by suggesting code improvements. When you encounter an accessibility issue in your code, Copilot can provide suggestions for fixing it. For example, if you have an image without alt text, Copilot might suggest adding an appropriate alt attribute.
+GitHub Copilot can assist in fixing accessibility issues by suggesting code improvements. When you encounter an accessibility issue in your code, Copilot can provide suggestions for fixing it. For example, if an image is missing alt text, Copilot might suggest adding an appropriate alt attribute.
 
 ## Using GitHub Workspaces to Fix All Accessibility Issues
 
