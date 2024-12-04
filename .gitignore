@@ -12,3 +12,4 @@ dist/
 
 # Ignore a11y-reports directory
 a11y-reports/
+script.txt
