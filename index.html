@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WCAG Issues Example</title>
+    <title>Accessible Web Page</title>
     <link rel="stylesheet" href="styles.css">
     <meta name="description" content="A sample HTML document to test accessibility">
     <style>
@@ -23,7 +23,7 @@
 </head>
 <body>
     <header>
-        <h1>Main Heading</h1>
+        <h1>Welcome to My Accessible Web Page</h1>
         <nav>
             <ul>
                 <li><a href="#intro">Introduction</a></li>
@@ -34,15 +34,16 @@
 
     <main>
         <section id="intro">
-            <h2>Introduction</h2>
-            <p class="low-contrast">This text has low contrast and is hard to read.</p>
+            <h2>About Us</h2>
+            <p>We are committed to making our website accessible to everyone.</p>
             <img src="image1.jpg"> <!-- Missing alt text -->
             <img src="image2.jpg"> <!-- Missing alt text -->
             <p>Make sure to catch all the issues!</p>
         </section>
 
         <section id="content">
-            <h2>Content</h2>
+            <h2>Our Services</h2>
+            <img src="services.jpg" alt="Description of services image">
             <img src="image1.jpg" alt="Description of image 1">
             <img src="image2.jpg" alt="Description of image 2">
             <img src="image.jpg" alt="Description of image 3">
@@ -58,7 +59,7 @@
     </main>
 
     <footer>
-        <p>Footer content here</p>
+        <p>Contact us at <a href="mailto:info@example.com">info@example.com</a></p>
     </footer>
 </body>
 </html>
