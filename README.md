@@ -1,6 +1,6 @@
-**NOTE:**
-
-This project is complemented by a set of [Slides](./slides/AI_Accessibility_November24.pdf) that provide additional information and context.
+> **Note:**
+> 
+> This project is complemented by a set of [Slides](./slides/AI_Accessibility_November24.pdf) that provide additional information and context.
 
 # Introduction
 
