@@ -1,4 +1,8 @@
-# HTML WCAG Issues
+**NOTE:**
+
+This project is complemented by a set of [Slides](./slides/AI_Accessibility_November24.pdf) that provide additional information and context.
+
+# Introduction
 
 This project contains a simple HTML file (`index.html`) that intentionally demonstrates common accessibility issues as outlined by the Web Content Accessibility Guidelines (WCAG). The purpose of this project is to provide a clear example of various accessibility problems that can occur in web development.
 
