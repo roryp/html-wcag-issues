@@ -10,7 +10,9 @@ This project contains a simple HTML file (`index.html`) that intentionally demon
 
 1. **Low Contrast Text**: The text color does not provide sufficient contrast against the background, making it difficult for users with visual impairments to read.
 2. **Missing Alt Text for Images**: Images in the HTML file do not have alternative text attributes, which are essential for screen readers to convey the content of the images to visually impaired users.
-3. **Missing Language Attribute**: The HTML file does not specify the language of the content, which can affect screen readers' pronunciation and processing of the text.
+3. **Improper Use of Headings**: The HTML file uses incorrect heading levels, which can affect the structure and navigation of the content for screen readers.
+4. **Missing ARIA Attributes**: The HTML file lacks ARIA attributes for interactive elements, which can affect the accessibility of the content for screen readers.
+5. **Missing Landmarks**: The HTML file does not have proper landmarks, which can affect the navigation of the content for screen readers.
 
 This project serves as a resource for developers to understand and identify common accessibility pitfalls in their web applications.
 
