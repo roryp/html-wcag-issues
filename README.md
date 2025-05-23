@@ -27,7 +27,7 @@ The container will automatically install dependencies and set up the development
 
 ## Linting for Accessibility Issues
 
-To lint for accessibility issues in `index.html`, you can use the Axe Linter GitHub Action configured in `axe.yml`. This action will run Axe accessibility tests and report any issues found.
+To lint for accessibility issues in `index.html`, you can use the pa11y-ci GitHub Action configured in `.github/workflows/axe.yml`. This action will run pa11y-ci accessibility tests and report any issues found.
 
 ## Azure Static Website
 
@@ -72,7 +72,7 @@ To signup and use GitHub Workspaces to solve issues:
 
 ## Useful Links
 
-- [Accessibility Insights for Web](https://github.com/microsoft/accessibility-insights-action)
+- [pa11y-ci Action](https://github.com/pa11y/pa11y-ci-action)
 - [Axe Linter Action](https://github.com/dequelabs/axe-linter-action)
 - [Flow State](https://aka.ms/flow-state)
 - [Awesome AZD](https://aka.ms/awesome-azd)

@@ -1,35 +1,24 @@
-name: WCAG Compliance Test
+name: Accessibility Test
 
 on:
+  pull_request:
+    branches:
+      - main
   push:
     branches:
       - main
-  pull_request:
 
 jobs:
-  accessibility-test:
+  pa11y:
     runs-on: ubuntu-latest
-
-    permissions:
-      contents: read
-      checks: write
-      issues: write
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Install dependencies
-        run: npm install
-
+      - uses: actions/checkout@v4
       - name: Start local server
         run: |
-          npx http-server . -p 44523 &
-          sleep 5  # Wait for server to be ready
-
-      - name: Run Accessibility Insights Action
-        uses: microsoft/accessibility-insights-action@v2
+          npm install -g serve
+          serve -s . -l 5000 &
+          sleep 5
+      - name: Run pa11y-ci
+        uses: pa11y/pa11y-ci-action@v2
         with:
-          scan-url-relative-path: './index.html'
-          output-dir: './a11y-reports'
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          urls: 'http://localhost:5000/index.html'
