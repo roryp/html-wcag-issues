@@ -8,7 +8,7 @@
     <meta name="description" content="A sample HTML document to test accessibility">
     <style>
         .low-contrast {
-            color: #777; /* Low contrast color */
+            color: #595959; /* Improved contrast color that meets WCAG AA standards */
         }
         .high-contrast {
             color: #000000;
@@ -36,8 +36,8 @@
         <section id="intro">
             <h2>Introduction</h2>
             <p class="low-contrast">This text has low contrast and is hard to read.</p>
-            <img src="image1.jpg"> <!-- Missing alt text -->
-            <img src="image2.jpg"> <!-- Missing alt text -->
+            <img src="image1.jpg" alt="Introduction section image 1"> <!-- Added alt text -->
+            <img src="image2.jpg" alt="Introduction section image 2"> <!-- Added alt text -->
             <p>Make sure to catch all the issues!</p>
         </section>
 
