@@ -22,6 +22,11 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Start local server
+        run: |
+          npx http-server . -p 44523 &
+          sleep 5  # Wait for server to be ready
+
       - name: Run Accessibility Insights Action
         uses: microsoft/accessibility-insights-action@v2
         with:
