@@ -22,9 +22,12 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Start HTTP Server
+        run: npx http-server -p 8080 &
+
       - name: Run Accessibility Insights Action
         uses: microsoft/accessibility-insights-action@v2
         with:
-          scan-url-relative-path: './index.html'
+          scan-url: 'http://localhost:8080/index.html'
           output-dir: './a11y-reports'
           repo-token: ${{ secrets.GITHUB_TOKEN }}
