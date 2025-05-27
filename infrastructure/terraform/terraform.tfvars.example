@@ -1,0 +1,22 @@
+# terraform.tfvars.example - Example variable values
+# Copy this file to terraform.tfvars and update the values
+
+# AWS region
+aws_region = "us-east-1"
+
+# Environment name
+environment = "dev"
+
+# S3 bucket names - must be globally unique
+website_bucket_name  = "my-rag-website"
+document_bucket_name = "my-rag-documents"
+logs_bucket_name     = "my-rag-logs"
+
+# CloudFront custom domain (optional)
+cloudfront_aliases = []
+acm_certificate_arn = null
+
+# Azure AI Foundry configuration
+azure_foundry_endpoint = "https://my-azure-foundry.openai.azure.com"
+azure_search_endpoint  = "https://my-azure-search.search.windows.net"
+azure_search_index     = "rag-documents"

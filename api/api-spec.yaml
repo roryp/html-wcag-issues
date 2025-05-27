@@ -1,0 +1,544 @@
+openapi: 3.0.0
+info:
+  title: Azure Foundry RAG API
+  description: API for the Azure Foundry RAG application
+  version: 1.0.0
+servers:
+  - url: https://api.example.com/v1
+    description: Production API server
+  - url: https://api-dev.example.com/v1
+    description: Development API server
+
+paths:
+  /chat:
+    post:
+      summary: Send a message to the chat system
+      operationId: sendChatMessage
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChatRequest'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChatResponse'
+        '401':
+          description: Unauthorized
+        '429':
+          description: Too many requests
+        '500':
+          description: Server error
+
+  /chat/stream:
+    post:
+      summary: Stream a chat response
+      operationId: streamChatResponse
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChatRequest'
+      responses:
+        '200':
+          description: Successful streaming response
+          content:
+            text/event-stream:
+              schema:
+                type: string
+        '401':
+          description: Unauthorized
+        '429':
+          description: Too many requests
+        '500':
+          description: Server error
+
+  /documents:
+    get:
+      summary: Get a list of user documents
+      operationId: listDocuments
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+          description: Page number
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 10
+          description: Items per page
+      responses:
+        '200':
+          description: List of documents
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DocumentList'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Server error
+    
+    post:
+      summary: Upload a new document
+      operationId: uploadDocument
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: The document file to upload
+                metadata:
+                  type: object
+                  properties:
+                    title:
+                      type: string
+                    description:
+                      type: string
+                    tags:
+                      type: array
+                      items:
+                        type: string
+      responses:
+        '201':
+          description: Document uploaded successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Document'
+        '400':
+          description: Invalid request
+        '401':
+          description: Unauthorized
+        '413':
+          description: File too large
+        '500':
+          description: Server error
+
+  /documents/{documentId}:
+    get:
+      summary: Get document details
+      operationId: getDocument
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: documentId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Document details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Document'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Document not found
+        '500':
+          description: Server error
+    
+    delete:
+      summary: Delete a document
+      operationId: deleteDocument
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: documentId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Document deleted successfully
+        '401':
+          description: Unauthorized
+        '404':
+          description: Document not found
+        '500':
+          description: Server error
+
+  /search:
+    get:
+      summary: Search documents
+      operationId: searchDocuments
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: q
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Search query
+        - name: type
+          in: query
+          schema:
+            type: array
+            items:
+              type: string
+              enum: [pdf, docx, txt]
+          explode: true
+          style: form
+          description: Filter by document type
+        - name: date
+          in: query
+          schema:
+            type: string
+            enum: [all, week, month]
+          description: Filter by date added
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+          description: Page number
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 10
+          description: Items per page
+      responses:
+        '200':
+          description: Search results
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchResults'
+        '400':
+          description: Invalid query
+        '401':
+          description: Unauthorized
+        '500':
+          description: Server error
+
+  /auth/register:
+    post:
+      summary: Register a new user
+      operationId: registerUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterRequest'
+      responses:
+        '201':
+          description: User registered successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '400':
+          description: Invalid request
+        '409':
+          description: Email already registered
+        '500':
+          description: Server error
+
+  /auth/login:
+    post:
+      summary: User login
+      operationId: loginUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '400':
+          description: Invalid request
+        '401':
+          description: Invalid credentials
+        '500':
+          description: Server error
+
+  /auth/refresh:
+    post:
+      summary: Refresh authentication token
+      operationId: refreshToken
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                refreshToken:
+                  type: string
+                  description: Refresh token
+              required:
+                - refreshToken
+      responses:
+        '200':
+          description: Token refreshed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '400':
+          description: Invalid request
+        '401':
+          description: Invalid refresh token
+        '500':
+          description: Server error
+
+components:
+  schemas:
+    ChatRequest:
+      type: object
+      properties:
+        message:
+          type: string
+          description: User message
+        conversationId:
+          type: string
+          description: Existing conversation ID (optional)
+        history:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+          description: Previous messages in the conversation (optional)
+      required:
+        - message
+
+    ChatResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Assistant response
+        conversationId:
+          type: string
+          description: Conversation ID
+        sources:
+          type: array
+          items:
+            $ref: '#/components/schemas/Source'
+          description: Sources used for the response
+
+    Message:
+      type: object
+      properties:
+        role:
+          type: string
+          enum: [user, assistant, system]
+        content:
+          type: string
+      required:
+        - role
+        - content
+
+    Source:
+      type: object
+      properties:
+        documentId:
+          type: string
+          description: ID of the source document
+        title:
+          type: string
+          description: Title of the document
+        location:
+          type: string
+          description: Location within the document (e.g., page number)
+        excerpt:
+          type: string
+          description: Relevant excerpt from the document
+      required:
+        - documentId
+        - title
+
+    Document:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Document ID
+        filename:
+          type: string
+          description: Original filename
+        type:
+          type: string
+          enum: [pdf, docx, txt]
+          description: Document type
+        size:
+          type: integer
+          description: File size in bytes
+        title:
+          type: string
+          description: Document title (from metadata)
+        uploaded:
+          type: string
+          format: date-time
+          description: Upload timestamp
+        status:
+          type: string
+          enum: [processing, completed, failed]
+          description: Processing status
+        metadata:
+          type: object
+          description: Additional document metadata
+      required:
+        - id
+        - filename
+        - type
+        - size
+        - uploaded
+        - status
+
+    DocumentList:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Document'
+        total:
+          type: integer
+          description: Total number of documents
+        page:
+          type: integer
+          description: Current page number
+        totalPages:
+          type: integer
+          description: Total number of pages
+
+    SearchResults:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/SearchResult'
+        totalItems:
+          type: integer
+          description: Total number of matching documents
+        currentPage:
+          type: integer
+          description: Current page number
+        totalPages:
+          type: integer
+          description: Total number of pages
+
+    SearchResult:
+      type: object
+      properties:
+        documentId:
+          type: string
+          description: Document ID
+        title:
+          type: string
+          description: Document title
+        snippet:
+          type: string
+          description: Text snippet with search term highlighting
+        type:
+          type: string
+          enum: [pdf, docx, txt]
+          description: Document type
+        date:
+          type: string
+          format: date-time
+          description: Document upload date
+        metadata:
+          type: object
+          description: Additional document metadata
+      required:
+        - documentId
+        - title
+        - snippet
+        - type
+        - date
+
+    RegisterRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          format: password
+        name:
+          type: string
+      required:
+        - email
+        - password
+        - name
+
+    LoginRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          format: password
+      required:
+        - email
+        - password
+
+    AuthResponse:
+      type: object
+      properties:
+        token:
+          type: string
+          description: JWT token
+        refreshToken:
+          type: string
+          description: Refresh token
+        user:
+          type: object
+          properties:
+            id:
+              type: string
+            name:
+              type: string
+            email:
+              type: string
+      required:
+        - token
+        - refreshToken
+        - user
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

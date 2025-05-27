@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Error page for Azure Foundry RAG">
+    <title>Error - Azure Foundry RAG</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/components.css">
+    <script src="js/app.js" defer></script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Azure Foundry RAG</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Chat</a></li>
+                    <li><a href="upload.html">Upload Documents</a></li>
+                    <li><a href="search.html">Search Knowledge Base</a></li>
+                    <li><a href="#" id="auth-link" aria-label="Sign in or create an account">Sign In</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <section class="error-container">
+                <h2>Page Not Found</h2>
+                <div class="error-content">
+                    <svg aria-hidden="true" width="120" height="120" viewBox="0 0 24 24">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" fill="currentColor"></path>
+                    </svg>
+                    <p>The page you are looking for doesn't exist or has been moved.</p>
+                    <a href="index.html" class="button primary">Go to Homepage</a>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Azure Foundry RAG - <a href="docs/deployment-guide.md">Deployment Guide</a></p>
+            <p>Powered by Azure AI Foundry and AWS S3</p>
+        </div>
+    </footer>
+
+    <!-- Auth Modal -->
+    <div class="modal" id="auth-modal" aria-labelledby="auth-modal-title" aria-modal="true" hidden>
+        <div class="modal-content">
+            <button class="close-modal" aria-label="Close modal">×</button>
+            <h2 id="auth-modal-title">Sign In</h2>
+            <form id="auth-form">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit" class="button primary">Sign In</button>
+                <p class="form-footer">Don't have an account? <a href="#" id="create-account">Create Account</a></p>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

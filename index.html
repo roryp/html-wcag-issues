@@ -3,62 +3,99 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WCAG Issues Example</title>
-    <link rel="stylesheet" href="styles.css">
-    <meta name="description" content="A sample HTML document to test accessibility">
-    <style>
-        .low-contrast {
-            color: #777; /* Low contrast color */
-        }
-        .high-contrast {
-            color: #000000;
-        }
-        .center-text {
-            text-align: center;
-        }
-        .red-text {
-            color: red;
-        }
-    </style>
+    <meta name="description" content="Azure Foundry RAG Chat Interface - Ask questions about your documents">
+    <title>Azure Foundry RAG - Chat Interface</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/components.css">
+    <script src="js/app.js" defer></script>
+    <script src="js/chat.js" defer></script>
 </head>
 <body>
     <header>
-        <h1>Main Heading</h1>
-        <nav>
-            <ul>
-                <li><a href="#intro">Introduction</a></li>
-                <li><a href="#content">Content</a></li>
-            </ul>
-        </nav>
+        <div class="container">
+            <h1>Azure Foundry RAG</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html" aria-current="page">Chat</a></li>
+                    <li><a href="upload.html">Upload Documents</a></li>
+                    <li><a href="search.html">Search Knowledge Base</a></li>
+                    <li><a href="#" id="auth-link" aria-label="Sign in or create an account">Sign In</a></li>
+                </ul>
+            </nav>
+        </div>
     </header>
 
     <main>
-        <section id="intro">
-            <h2>Introduction</h2>
-            <p class="low-contrast">This text has low contrast and is hard to read.</p>
-            <img src="image1.jpg"> <!-- Missing alt text -->
-            <img src="image2.jpg"> <!-- Missing alt text -->
-            <p>Make sure to catch all the issues!</p>
-        </section>
+        <div class="container">
+            <section class="chat-container">
+                <h2>Ask questions about your documents</h2>
+                
+                <div class="chat-messages" id="chat-messages" aria-live="polite">
+                    <div class="message system">
+                        <div class="message-content">
+                            <p>Welcome to Azure Foundry RAG! Ask me any question about your uploaded documents.</p>
+                        </div>
+                    </div>
+                    <!-- Messages will be inserted here by JavaScript -->
+                </div>
+                
+                <div class="chat-input">
+                    <form id="chat-form">
+                        <label for="user-input" class="visually-hidden">Type your message</label>
+                        <textarea id="user-input" placeholder="Type your question here..." rows="2" aria-multiline="true"></textarea>
+                        <div class="button-group">
+                            <button type="submit" aria-label="Send message">
+                                <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24">
+                                    <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path>
+                                </svg>
+                                Send
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </section>
 
-        <section id="content">
-            <h2>Content</h2>
-            <img src="image1.jpg" alt="Description of image 1">
-            <img src="image2.jpg" alt="Description of image 2">
-            <img src="image.jpg" alt="Description of image 3">
-            <p class="red-text">This text is styled inline.</p>
-            <p class="center-text">Centered text using deprecated tag</p>
-            <p>Check out this code snippet: if (x < y) { return x; }</p>
-            <button>Click me</button> <!-- Missing ARIA label -->
-            <h4>Another heading</h4>
-            <h3>This should be a subheading of the previous heading</h3> <!-- Improper use of headings -->
-            <img src="image3.jpg" alt="Description of image 4">
-            <img src="image4.jpg" alt="Description of image 5">
-        </section>
+            <aside class="knowledge-panel">
+                <h3>Recent Documents</h3>
+                <ul id="recent-docs" class="document-list">
+                    <!-- List will be populated by JavaScript -->
+                    <li class="empty-state">No documents uploaded yet</li>
+                </ul>
+                <a href="upload.html" class="button secondary">Upload New Document</a>
+                
+                <h3>Sources</h3>
+                <div id="sources-panel" class="sources-list">
+                    <p class="empty-state">Sources will appear here when a response is generated</p>
+                </div>
+            </aside>
+        </div>
     </main>
 
     <footer>
-        <p>Footer content here</p>
+        <div class="container">
+            <p>&copy; 2024 Azure Foundry RAG - <a href="docs/deployment-guide.md">Deployment Guide</a></p>
+            <p>Powered by Azure AI Foundry and AWS S3</p>
+        </div>
     </footer>
+
+    <!-- Auth Modal -->
+    <div class="modal" id="auth-modal" aria-labelledby="auth-modal-title" aria-modal="true" hidden>
+        <div class="modal-content">
+            <button class="close-modal" aria-label="Close modal">×</button>
+            <h2 id="auth-modal-title">Sign In</h2>
+            <form id="auth-form">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit" class="button primary">Sign In</button>
+                <p class="form-footer">Don't have an account? <a href="#" id="create-account">Create Account</a></p>
+            </form>
+        </div>
+    </div>
 </body>
 </html>
