@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Search the Azure Foundry RAG knowledge base">
+    <title>Azure Foundry RAG - Search Knowledge Base</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/components.css">
+    <script src="js/app.js" defer></script>
+    <script src="js/search.js" defer></script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Azure Foundry RAG</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Chat</a></li>
+                    <li><a href="upload.html">Upload Documents</a></li>
+                    <li><a href="search.html" aria-current="page">Search Knowledge Base</a></li>
+                    <li><a href="#" id="auth-link" aria-label="Sign in or create an account">Sign In</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <section class="search-container">
+                <h2>Search Knowledge Base</h2>
+                <form id="search-form" class="search-form" role="search">
+                    <div class="search-input-wrapper">
+                        <label for="search-input" class="visually-hidden">Search documents</label>
+                        <input type="search" id="search-input" name="q" placeholder="Search your documents..." autocomplete="off">
+                        <button type="submit" aria-label="Search">
+                            <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24">
+                                <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    
+                    <div class="filters-section">
+                        <h3>Filters</h3>
+                        <div class="filter-group">
+                            <fieldset>
+                                <legend>Document Type</legend>
+                                <div class="checkbox-group">
+                                    <div class="checkbox">
+                                        <input type="checkbox" id="type-pdf" name="type" value="pdf">
+                                        <label for="type-pdf">PDF</label>
+                                    </div>
+                                    <div class="checkbox">
+                                        <input type="checkbox" id="type-docx" name="type" value="docx">
+                                        <label for="type-docx">DOCX</label>
+                                    </div>
+                                    <div class="checkbox">
+                                        <input type="checkbox" id="type-txt" name="type" value="txt">
+                                        <label for="type-txt">TXT</label>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                        
+                        <div class="filter-group">
+                            <fieldset>
+                                <legend>Date Added</legend>
+                                <div class="radio-group">
+                                    <div class="radio">
+                                        <input type="radio" id="date-all" name="date" value="all" checked>
+                                        <label for="date-all">All time</label>
+                                    </div>
+                                    <div class="radio">
+                                        <input type="radio" id="date-week" name="date" value="week">
+                                        <label for="date-week">Past week</label>
+                                    </div>
+                                    <div class="radio">
+                                        <input type="radio" id="date-month" name="date" value="month">
+                                        <label for="date-month">Past month</label>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                        
+                        <button type="button" id="clear-filters" class="button text">Clear Filters</button>
+                    </div>
+                </form>
+                
+                <div id="search-results" class="search-results" aria-live="polite">
+                    <p class="search-status">Enter a search term to find documents</p>
+                    <!-- Results will be inserted here by JavaScript -->
+                </div>
+                
+                <div class="pagination" aria-label="Search results pages" id="pagination" hidden>
+                    <button class="pagination-prev" aria-label="Previous page" disabled>
+                        <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24">
+                            <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"></path>
+                        </svg>
+                    </button>
+                    <div class="pagination-info">Page <span id="current-page">1</span> of <span id="total-pages">1</span></div>
+                    <button class="pagination-next" aria-label="Next page">
+                        <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24">
+                            <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path>
+                        </svg>
+                    </button>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Azure Foundry RAG - <a href="docs/deployment-guide.md">Deployment Guide</a></p>
+            <p>Powered by Azure AI Foundry and AWS S3</p>
+        </div>
+    </footer>
+
+    <!-- Auth Modal -->
+    <div class="modal" id="auth-modal" aria-labelledby="auth-modal-title" aria-modal="true" hidden>
+        <div class="modal-content">
+            <button class="close-modal" aria-label="Close modal">×</button>
+            <h2 id="auth-modal-title">Sign In</h2>
+            <form id="auth-form">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit" class="button primary">Sign In</button>
+                <p class="form-footer">Don't have an account? <a href="#" id="create-account">Create Account</a></p>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

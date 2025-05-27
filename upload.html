@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Upload documents to Azure Foundry RAG knowledge base">
+    <title>Azure Foundry RAG - Upload Documents</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/components.css">
+    <script src="js/app.js" defer></script>
+    <script src="js/upload.js" defer></script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Azure Foundry RAG</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Chat</a></li>
+                    <li><a href="upload.html" aria-current="page">Upload Documents</a></li>
+                    <li><a href="search.html">Search Knowledge Base</a></li>
+                    <li><a href="#" id="auth-link" aria-label="Sign in or create an account">Sign In</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <section class="upload-container">
+                <h2>Upload Documents</h2>
+                <p>Upload documents to add to your knowledge base. Supported formats: PDF, DOCX, TXT</p>
+                
+                <form id="upload-form" class="upload-form">
+                    <div class="drop-zone" id="drop-zone" tabindex="0">
+                        <div class="drop-zone-prompt">
+                            <svg aria-hidden="true" width="48" height="48" viewBox="0 0 24 24">
+                                <path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z"></path>
+                            </svg>
+                            <p>Drag & drop files here or <span class="highlight">choose files</span></p>
+                            <p class="small">Maximum size: 25MB per file</p>
+                        </div>
+                        <input type="file" id="file-input" multiple accept=".pdf,.docx,.txt" class="file-input" aria-label="Upload document files">
+                    </div>
+                    
+                    <div id="file-list" class="file-list" aria-live="polite">
+                        <!-- Files will be listed here by JavaScript -->
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" id="upload-button" class="button primary" disabled>
+                            <span class="button-text">Upload Documents</span>
+                            <span class="spinner hidden"></span>
+                        </button>
+                    </div>
+                </form>
+            </section>
+
+            <section class="knowledge-base-status">
+                <h2>Knowledge Base Status</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3 class="stat-title">Total Documents</h3>
+                        <p id="total-docs" class="stat-value">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3 class="stat-title">Processing</h3>
+                        <p id="processing-docs" class="stat-value">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3 class="stat-title">Last Updated</h3>
+                        <p id="last-updated" class="stat-value">Never</p>
+                    </div>
+                </div>
+                
+                <div class="recent-uploads">
+                    <h3>Recently Uploaded</h3>
+                    <table class="uploads-table">
+                        <caption class="visually-hidden">Recently uploaded documents</caption>
+                        <thead>
+                            <tr>
+                                <th scope="col">Document Name</th>
+                                <th scope="col">Size</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Uploaded</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recent-uploads">
+                            <tr class="empty-state">
+                                <td colspan="4">No documents have been uploaded yet</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Azure Foundry RAG - <a href="docs/deployment-guide.md">Deployment Guide</a></p>
+            <p>Powered by Azure AI Foundry and AWS S3</p>
+        </div>
+    </footer>
+
+    <!-- Auth Modal -->
+    <div class="modal" id="auth-modal" aria-labelledby="auth-modal-title" aria-modal="true" hidden>
+        <div class="modal-content">
+            <button class="close-modal" aria-label="Close modal">×</button>
+            <h2 id="auth-modal-title">Sign In</h2>
+            <form id="auth-form">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit" class="button primary">Sign In</button>
+                <p class="form-footer">Don't have an account? <a href="#" id="create-account">Create Account</a></p>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

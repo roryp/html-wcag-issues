@@ -1,81 +1,125 @@
-> **Note:**
-> 
-> This project is complemented by a set of [Slides](./slides/AI_Accessibility_November24.pdf) that provide additional information and context.
+# Azure Foundry RAG Website for AWS S3
 
-# Introduction
+This project provides a complete RAG (Retrieval-Augmented Generation) solution using Azure AI Foundry for backend AI capabilities and AWS S3 for static website hosting. It demonstrates a modern approach to building AI-powered knowledge base applications.
 
-This project contains a simple HTML file (`index.html`) that intentionally demonstrates common accessibility issues as outlined by the Web Content Accessibility Guidelines (WCAG). The purpose of this project is to provide a clear example of various accessibility problems that can occur in web development.
+## Features
 
-## WCAG Issues Demonstrated
+- **Chat Interface**: Interactive chat UI for querying documents using natural language
+- **Document Upload**: Support for uploading PDF, DOCX, and TXT files to the knowledge base
+- **Semantic Search**: Advanced search capabilities across uploaded documents
+- **Citation Support**: Responses include references to source documents
+- **Responsive Design**: Mobile-friendly interface that works across devices
+- **Secure Authentication**: User management with sign-up and login functionality
 
-1. **Low Contrast Text**: The text color does not provide sufficient contrast against the background, making it difficult for users with visual impairments to read.
-2. **Missing Alt Text for Images**: Images in the HTML file do not have alternative text attributes, which are essential for screen readers to convey the content of the images to visually impaired users.
-3. **Missing Language Attribute**: The HTML file does not specify the language of the content, which can affect screen readers' pronunciation and processing of the text.
+## Architecture
 
-This project serves as a resource for developers to understand and identify common accessibility pitfalls in their web applications.
+The solution combines Azure AI services with AWS infrastructure:
+
+- **Frontend**: HTML5, CSS3, and JavaScript static website hosted on AWS S3
+- **Backend**: Serverless AWS Lambda functions with API Gateway
+- **AI Engine**: Azure AI Foundry for document processing and RAG capabilities
+- **Vector Storage**: Azure AI Search for efficient semantic retrieval
+- **Authentication**: AWS Cognito for user management
+- **Document Storage**: AWS S3 for document storage
+- **Infrastructure as Code**: Terraform and CloudFormation templates for deployment
+
+## Getting Started
+
+### Prerequisites
+
+- AWS Account with permissions for S3, CloudFront, API Gateway, Lambda, DynamoDB, and Cognito
+- Azure Subscription with access to Azure AI Foundry and Azure AI Search
+- Node.js and npm for local development
+- Terraform (optional) for IaC deployment
+
+### Local Development
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/roryp/html-wcag-issues.git
+   cd html-wcag-issues
+   ```
+
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+3. Open the project in a web browser:
+   ```bash
+   open index.html
+   ```
+
+### Deployment
+
+For deployment instructions, see the [Deployment Guide](docs/deployment-guide.md).
+
+## File Structure
+
+```
+/
+├── index.html (main chat interface)
+├── upload.html (document upload page)
+├── search.html (knowledge base search)
+├── css/
+│   ├── main.css
+│   └── components.css
+├── js/
+│   ├── app.js
+│   ├── chat.js
+│   ├── upload.js
+│   └── search.js
+├── api/
+│   ├── lambda-functions/
+│   └── api-spec.yaml
+├── infrastructure/
+│   ├── terraform/
+│   └── cloudformation/
+└── docs/
+    ├── README.md
+    └── deployment-guide.md
+```
+
+## Accessibility
+
+This project follows WCAG 2.1 AA guidelines to ensure accessibility:
+
+- Semantic HTML structure with appropriate landmarks
+- ARIA attributes for interactive elements
+- Keyboard navigation support
+- Sufficient color contrast
+- Screen reader compatibility
+- Focus management for modals and dynamic content
 
 ## Development Container
 
-This project includes a development container configuration to provide a consistent development environment. The `devcontainer.json` file sets up a container with Node.js 14 and installs necessary VS Code extensions, including GitHub Copilot and Copilot Chat.
+This project includes a development container configuration to provide a consistent development environment. The `devcontainer.json` file sets up a container with Node.js and installs necessary VS Code extensions.
 
 To use the development container:
 1. Ensure you have Docker installed.
 2. Open the project in Visual Studio Code.
 3. When prompted, reopen the project in the container.
 
-The container will automatically install dependencies and set up the development environment.
+## CI/CD and GitHub Actions
 
-## Linting for Accessibility Issues
+This repository includes GitHub Actions workflows for automated deployment:
 
-To lint for accessibility issues in `index.html`, you can use the Axe Linter GitHub Action configured in `axe.yml`. This action will run Axe accessibility tests and report any issues found.
+- The `azure.yml` workflow can be adapted for deploying to AWS S3 instead of Azure Blob Storage
 
-## Azure Static Website
+## Contributing
 
-This project can be deployed as a static website on Azure Blob Storage. The `azure.yml` GitHub Action workflow automates the deployment process. It uploads `index.html` to Azure Blob Storage and purges the CDN endpoint to ensure the latest version is served.
+Contributions are welcome! Please feel free to submit a Pull Request.
 
-To set up the Azure deployment:
-1. Configure the Azure credentials in your repository secrets.
-2. Update the `azure.yml` file with your Azure storage account and CDN details.
-3. Push changes to the `main` branch to trigger the deployment workflow.
+## License
 
-## GitHub Copilot Install
+This project is licensed under the MIT License - see the LICENSE file for details.
 
-To install GitHub Copilot, follow these steps:
-1. Open Visual Studio Code.
-2. Go to the Extensions view by clicking on the Extensions icon in the Activity Bar on the side of the window.
-3. Search for "GitHub Copilot" and click Install.
-4. Once installed, you will need to sign in to GitHub to start using Copilot.
+## Useful Resources
 
-## Testing with Accessibility Insights for Web
-
-To test your web application with Accessibility Insights for Web:
-1. Install the Accessibility Insights for Web extension from the Chrome Web Store or the Microsoft Edge Add-ons store.
-2. Open your web application in the browser.
-3. Click on the Accessibility Insights for Web icon in the browser toolbar.Choose **FastPass** to run automated checks or **Assessment** to perform manual tests.
-
-## GitHub Copilot Fixing Accessibility Issues
-
-GitHub Copilot can assist in fixing accessibility issues by suggesting code improvements. When you encounter an accessibility issue in your code, Copilot can provide suggestions for fixing it. For example, if an image is missing alt text, Copilot might suggest adding an appropriate alt attribute.
-
-## Using GitHub Workspaces to Fix All Accessibility Issues
-
-GitHub Workspaces can be used to collaboratively fix accessibility issues in your project. By creating a GitHub Workspace, you can invite team members to work on the project together, track issues, and review pull requests. This collaborative approach can help ensure that all accessibility issues are addressed efficiently.
-
-## How to Signup and Use GitHub Workspaces to Solve Issues
-
-To signup and use GitHub Workspaces to solve issues:
-1. Visit the GitHub Workspaces project page: [GitHub Workspaces](https://githubnext.com/projects/copilot-workspace).
-2. Follow the instructions to sign up for GitHub Workspaces.
-3. Once signed up, create a new workspace for your project.
-4. Invite team members to join the workspace.
-5. Use the workspace to collaboratively work on fixing accessibility issues, track progress, and review pull requests.
-
-## Useful Links
-
-- [Accessibility Insights for Web](https://github.com/microsoft/accessibility-insights-action)
-- [Axe Linter Action](https://github.com/dequelabs/axe-linter-action)
-- [Flow State](https://aka.ms/flow-state)
-- [Awesome AZD](https://aka.ms/awesome-azd)
-- [HTML WCAG Issues](https://github.com/roryp/html-wcag-issues)
-- [Accessibility Fundamentals](https://learn.microsoft.com/en-us/training/paths/accessibility-fundamental)
-- [Accessibility Linter](https://marketplace.visualstudio.com/items?itemName=deque-systems.vscode-axe-linter)
+- [Azure AI Foundry Documentation](https://learn.microsoft.com/azure/ai-services/openai/)
+- [AWS S3 Static Website Hosting](https://docs.aws.amazon.com/AmazonS3/latest/userguide/WebsiteHosting.html)
+- [AWS CloudFront Documentation](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Introduction.html)
+- [Terraform AWS Provider](https://registry.terraform.io/providers/hashicorp/aws/latest/docs)
+- [AWS CloudFormation User Guide](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/Welcome.html)
+- [Lambda Function Handler in Node.js](https://docs.aws.amazon.com/lambda/latest/dg/nodejs-handler.html)
+- [Vector Embeddings for RAG Applications](https://learn.microsoft.com/azure/search/vector-search-overview)
